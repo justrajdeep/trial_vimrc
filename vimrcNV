@@ -1,0 +1,134 @@
+se nu
+se nowrap
+se nocompatible
+se hlsearch
+se smartcase
+set autoindent
+se smartindent
+set copyindent
+se incsearch
+set backspace=indent,eol,start
+" Turn backup off, since most stuff is in SVN, git anyway...
+set nobackup
+set nowritebackup
+set noswapfile
+set undolevels=1000
+set relativenumber
+set nowrapscan
+set mouse=a
+set expandtab
+set showmatch
+set diffopt+=iwhite
+set diffopt+=context:3
+set infercase " case inferred by default
+set ignorecase
+set nostartofline
+set virtualedit=block
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+map <C-S-Insert> <MiddleMouse>
+map! <C-S-Insert> <MiddleMouse>
+set clipboard=autoselect
+vnoremap p "_dP
+set autochdir
+set hidden
+"filelist Completion options
+set completeopt=longest,menuone
+set wildmode=longest,list,full
+set wildignorecase
+"command line suggestion
+set wildmenu
+:set cpo-=<
+:set wcm=<C-Z>
+highlight ExtraWhitespace ctermbg=red guibg=red
+cnoremap <C-A> <Home>
+cnoremap <C-F> <Right>
+cnoremap <C-B> <Left>
+cnoremap <M-b>  <S-Left>
+cnoremap <M-f>  <S-Right>
+cnoremap <M-d>  <S-right><Delete>
+"make alt arrows to behave like browser"
+nnoremap <M-Left> <C-o>
+nnoremap <M-Right> <C-i>
+cnoremap <ESC>b <S-Left>
+cnoremap <Esc>d <S-right><Delete>
+cnoremap <ESC>f <S-Right>
+cnoremap <ESC><C-H> <C-W>
+"buffer navigation
+nmap <C-q> :e!<CR>
+"j and k should follow the screen
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+"inoremap <Down> <C-o>gj
+"inoremap <Up> <C-o>gk
+nnoremap gf gF
+nnoremap <C-w><C-f> <C-w><S-f>
+nnoremap <C-w>gf <C-w>gF
+:command Qa qa
+:command QA qa
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
+:command Sp sp
+:command Vs vs
+set guioptions-=T
+set guioptions+=eb
+" when switching buffer go to the open one"
+set switchbuf=useopen,usetab
+set shiftwidth=2
+set softtabstop=2
+command! -nargs=? Filter let @i='' | execute 'g/<args>/y I' | redraw | new | setlocal bt=nofile | put! I
+set guifont=Monaco\ 11 "favourite
+set scrolloff=2 "skip 2 lines when scrolling
+
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'Shougo/neocomplete.vim'
+
+"Brief help
+":BundleList          - list configured bundles
+":BundleInstall(!)    - install (update) bundles
+":BundleSearch(!) foo - search (or refresh cache first) for foo
+":BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
+
+source $HOME/.vim/neo_complete
+
+augroup filetype_make
+:autocmd!
+:au BufNewFile,BufRead Makeppfile setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead Makeppfile.* setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead *.make setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead rtlmakefile.inc setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead vplmakefile.inc setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead vcsmakefile.inc setf make |setlocal ts=4 sts=4 sw=4 noexpandtab
+:au BufNewFile,BufRead *.config setf make |setlocal ts=4 sts=4 sw=4 expandtab
+":autocmd BufLeave,FocusLost  Makefile* silent! wall
+augroup END
+"without this crontab does not work
+augroup filetype_crontab
+:autocmd!
+:autocmd FileType crontab set backupcopy=yes
+augroup END
+augroup filetype_patch
+:autocmd!
+:autocmd BufEnter *patch* setlocal filetype=patch |setlocal syntax=diff
+:autocmd Bufunload *patch* syntax clear
+augroup END
+
+augroup PatchDiffHighlight
+  autocmd!
+  autocmd FileType  diff   syntax enable
+augroup END
+
+syntax on
+filetype on
+filetype plugin on
+filetype indent on
